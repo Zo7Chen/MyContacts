@@ -124,7 +124,8 @@ public class LoginPage extends javax.swing.JFrame {
             Statement checkconnection = dbsConnection.createStatement();
             String _username = jTextField_username.getText();
             String _userpassword = String.valueOf(jPasswordField_password.getPassword());
-            String sql = "SELECT username,userpassword FROM MyAdmin WHERE username = '" + _username + "' and userpassword = '" + _userpassword + "'";
+            String sql = "SELECT username,userpassword FROM MyAdmin WHERE username = '" 
+                    + _username + "' and userpassword = '" + _userpassword + "'";
             ResultSet rs = checkconnection.executeQuery(sql);
             String password = null;
             while(rs.next()){

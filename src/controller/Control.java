@@ -15,7 +15,7 @@ public class Control {
     public static void main(String [] args) {
         
         new LoginPage();
-        System.out.println("page show");
+        //System.out.println("page show");
 
         
     }

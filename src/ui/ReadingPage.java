@@ -5,6 +5,8 @@
  */
 package ui;
 
+import java.sql.*;
+
 /**
  *
  * @author SilentLamb
@@ -16,6 +18,9 @@ public class ReadingPage extends javax.swing.JFrame {
      */
     public ReadingPage() {
         initComponents();
+        this.setSize(655,460);
+        this.setLocationRelativeTo(null);
+        this.setResizable(true);
         this.setVisible(true);
     }
 
@@ -28,101 +33,280 @@ public class ReadingPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        search_box = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "学号", "姓名", "专业", "班级", "籍贯" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(10, 90, 590, 270);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(100, 20, 77, 24);
+        jComboBox1.setBounds(100, 20, 59, 24);
+        getContentPane().add(search_box);
+        search_box.setBounds(200, 20, 130, 24);
 
-        jTextField1.setText("jTextField1");
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(230, 20, 94, 24);
-
-        jButton1.setText("jButton1");
+        jButton1.setText("查询");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1);
-        jButton1.setBounds(410, 20, 97, 27);
+        jButton1.setBounds(350, 20, 90, 27);
 
-        jButton2.setText("jButton2");
+        jButton2.setText("增加");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2);
-        jButton2.setBounds(70, 370, 97, 27);
+        jButton2.setBounds(70, 370, 63, 27);
 
-        jButton3.setText("jButton3");
+        jButton3.setText("删除");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3);
-        jButton3.setBounds(220, 370, 97, 27);
+        jButton3.setBounds(220, 370, 63, 27);
 
-        jButton4.setText("jButton4");
+        jButton4.setText("修改");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4);
-        jButton4.setBounds(390, 370, 97, 27);
+        jButton4.setBounds(390, 370, 63, 27);
 
-        jButton5.setText("jButton5");
+        jButton5.setText("显示全部/刷新");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton5);
-        jButton5.setBounds(520, 20, 97, 27);
+        jButton5.setBounds(470, 20, 130, 27);
+        getContentPane().add(jTextField1);
+        jTextField1.setBounds(250, 340, 94, 24);
+
+        jLabel1.setText("学号");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(170, 340, 60, 20);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(30, 100, 590, 210);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String searchcondition = null;
+        if (jComboBox1.getSelectedItem().equals("学号")) {
+            searchcondition = "StudentNumber";
+        }
+        else if (jComboBox1.getSelectedItem().equals("姓名")) {
+            searchcondition = "StudentName";
+        }
+        else if (jComboBox1.getSelectedItem().equals("专业")) {
+            searchcondition = "StudentMajor";
+        }
+        else if (jComboBox1.getSelectedItem().equals("班级")) {
+            searchcondition = "StudentClass";
+        }
+        else if (jComboBox1.getSelectedItem().equals("籍贯")) {
+            searchcondition = "StudentNativepalce";
+        }
+        try{
+            Class.forName(driverName);
+            Connection dbsConnection=DriverManager.getConnection(dbsURL,userName,userPwd);
+            //System.out.println("连接数据库成功");
+            Statement checkconnection = dbsConnection.createStatement();
+            String sql = "SELECT* FROM Contacts WHERE " + searchcondition + "= '" 
+                            + search_box.getText() + "'";
+            ResultSet rs = checkconnection.executeQuery(sql);
+            String theresult = "";
+            while(rs.next()){
+                //把数据格式化
+                theresult += rs.getString("StudentNumber") + "  ";
+                theresult += rs.getString("StudentName") + "  ";
+                theresult += rs.getString("StudentMajor") + "  ";
+                theresult += rs.getString("StudentClass") + "  ";
+                theresult += rs.getString("StudentNativepalce") + "  ";
+                theresult += rs.getString("StudentLivingplace") + "  ";
+                theresult += rs.getString("StudentJob") + "  ";
+                theresult += rs.getString("ContactInformation") + "\n";
+            }
+            jTextArea1.setText(theresult);
+            rs.close();
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.print("连接失败");
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        try{
+            Class.forName(driverName);
+            Connection dbsConnection=DriverManager.getConnection(dbsURL,userName,userPwd);
+            //System.out.println("连接数据库成功");
+            Statement checkconnection = dbsConnection.createStatement();
+            String sql = "SELECT* FROM Contacts";
+            ResultSet rs = checkconnection.executeQuery(sql);
+            String theresult = "";
+            while(rs.next()){
+                //把数据格式化
+                theresult += rs.getString("StudentNumber") + "  ";
+                theresult += rs.getString("StudentName") + "  ";
+                theresult += rs.getString("StudentMajor") + "  ";
+                theresult += rs.getString("StudentClass") + "  ";
+                theresult += rs.getString("StudentNativepalce") + "  ";
+                theresult += rs.getString("StudentLivingplace") + "  ";
+                theresult += rs.getString("StudentJob") + "  ";
+                theresult += rs.getString("ContactInformation") + "\n";
+            }
+            jTextArea1.setText(theresult);
+            rs.close();
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.print("连接失败");
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try{
+            Class.forName(driverName);
+            Connection dbsConnection=DriverManager.getConnection(dbsURL,userName,userPwd);
+            //System.out.println("连接数据库成功");
+            Statement checkconnection = dbsConnection.createStatement();
+            String sql = "SELECT* FROM Contacts WHERE StudentNumber= '" 
+                            + jTextField1.getText() + "'";
+            ResultSet rs = checkconnection.executeQuery(sql);
+            String studentid = null;
+            while(rs.next()){
+                studentid = rs.getString("StudentNumber");
+            }
+            if (jTextField1.getText().equals(studentid)){
+                System.out.println("Record had existed");
+            }
+            else{
+                sql = "INSERT INTO Contacts(StudentNumber) VALUES('"
+                        + jTextField1.getText() + "')";
+                checkconnection.executeUpdate(sql);
+                new AlterPage(jTextField1.getText());
+            }
+            rs.close();
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.print("连接失败");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try{
+            Class.forName(driverName);
+            Connection dbsConnection=DriverManager.getConnection(dbsURL,userName,userPwd);
+            //System.out.println("连接数据库成功");
+            Statement checkconnection = dbsConnection.createStatement();
+            String sql = "SELECT* FROM Contacts WHERE StudentNumber= '" 
+                            + jTextField1.getText() + "'";
+            ResultSet rs = checkconnection.executeQuery(sql);
+            String studentid = null;
+            while(rs.next()){
+                studentid = rs.getString("StudentNumber");
+            }
+            if (studentid.equals(jTextField1.getText())){
+                sql = "DELETE FROM Contacts WHERE StudentNumber= '"
+                        + jTextField1.getText() + "'";
+                checkconnection.executeUpdate(sql);
+                System.out.println("Record had been deleted");
+            }
+            else{
+                System.out.println("Record did not exist");
+            }
+            rs.close();
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.print("连接失败");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        try{
+            Class.forName(driverName);
+            Connection dbsConnection=DriverManager.getConnection(dbsURL,userName,userPwd);
+            //System.out.println("连接数据库成功");
+            Statement checkconnection = dbsConnection.createStatement();
+            String sql = "SELECT* FROM Contacts WHERE StudentNumber= '" 
+                            + jTextField1.getText() + "'";
+            ResultSet rs = checkconnection.executeQuery(sql);
+            String studentid = null;
+            while(rs.next()){
+                studentid = rs.getString("StudentNumber");
+            }
+            if (studentid.equals(jTextField1.getText())){
+                new AlterPage(jTextField1.getText());
+            }
+            else{
+                System.out.println("Record not found");
+            }
+            
+            rs.close();
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.print("连接失败");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReadingPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReadingPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReadingPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReadingPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ReadingPage().setVisible(true);
-            }
-        });
-    }
-
+    
+    
+    private String driverName="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private String dbsURL="jdbc:sqlserver://localhost\\SQLEXPRESS:1433;DatabaseName=MyContactsDBS";
+    private String userName="sa";
+    private String userPwd="zouqichen525200";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -130,8 +314,10 @@ public class ReadingPage extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField search_box;
     // End of variables declaration//GEN-END:variables
 }
